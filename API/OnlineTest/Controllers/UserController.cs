@@ -26,7 +26,7 @@ namespace OnlineTest.Controllers
             return Ok(data);
         }
 
-        [HttpPost]
+        [HttpPost("adduser")]
         public IActionResult Post(UserDTO user)
         {
             return Ok(_userService.AddUser(user));
