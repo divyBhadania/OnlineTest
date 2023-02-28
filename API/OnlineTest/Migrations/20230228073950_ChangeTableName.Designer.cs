@@ -11,8 +11,8 @@ using OnlineTest;
 namespace OnlineTest.Migrations
 {
     [DbContext(typeof(OnlineTestContext))]
-    [Migration("20230227105100_AddingMaxLenght")]
-    partial class AddingMaxLenght
+    [Migration("20230228073950_ChangeTableName")]
+    partial class ChangeTableName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace OnlineTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.User", b =>
@@ -69,7 +69,7 @@ namespace OnlineTest.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>
@@ -92,7 +92,7 @@ namespace OnlineTest.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>
