@@ -32,5 +32,18 @@ namespace OnlineTest.Controllers
             return Ok(_userService.AddUser(user));
         }
 
+        [HttpPut("updateuser")]
+        public IActionResult UpdateUser(UserDTO user)
+        {
+            try
+            {
+                _userService.UpdateUser(user);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -22,7 +22,8 @@ namespace OnlineTest.Service.Services
 
         public bool AddUser(UserDTO user)
         {
-            return _userRepository.AddUser(new User { Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password });
+            _userRepository.AddUser(new User { Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password });
+            return true;
         }
 
         public List<UserDTO> GetUsers()
@@ -43,6 +44,12 @@ namespace OnlineTest.Service.Services
             {
                 throw ex;
             }
+        }
+
+        public bool UpdateUser(UserDTO user)
+        {
+            _userRepository.UpdateUser(new User { Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password });
+            return true;
         }
     }
 }

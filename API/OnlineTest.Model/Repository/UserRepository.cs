@@ -1,4 +1,5 @@
-﻿using OnlineTest.Model.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineTest.Model.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,27 @@ namespace OnlineTest.Model.Repository
         {
             _context = context;
         }
-        public bool AddUser(User user)
+        public async Task<bool> AddUser(User user)
         {
-            _context.Users.Add(user);
-            return _context.SaveChanges() > 0;
+             _context.Users.Add(user);
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public IEnumerable<User> GetUsers()
+        public async Task<IEnumerable<User>>  GetUsers()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync(); ;
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public bool DeleteUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

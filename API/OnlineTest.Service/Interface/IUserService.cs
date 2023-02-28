@@ -12,5 +12,7 @@ namespace OnlineTest.Service.Interface
     {
         List<UserDTO> GetUsers();
         bool AddUser(UserDTO user);
+        bool UpdateUser(UserDTO user);
+
     }
 }
