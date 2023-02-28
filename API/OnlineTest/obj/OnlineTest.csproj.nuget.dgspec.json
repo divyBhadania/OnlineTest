@@ -100,7 +100,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest.Model\\OnlineTest.Model.csproj": {
+                "projectPath": "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest.Model\\OnlineTest.Model.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
