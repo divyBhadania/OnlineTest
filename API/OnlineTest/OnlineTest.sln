@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTest", "OnlineTest.csproj", "{CA7391F4-790C-4877-8A49-5F4121040C4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineTest", "OnlineTest.csproj", "{CA7391F4-790C-4877-8A49-5F4121040C4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTest.Model", "..\OnlineTest.Model\OnlineTest.Model.csproj", "{043B32A0-B54A-4B26-808A-3B5AFD7DFBAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineTest.Model", "..\OnlineTest.Model\OnlineTest.Model.csproj", "{043B32A0-B54A-4B26-808A-3B5AFD7DFBAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineTest.Service", "..\OnlineTest.Service\OnlineTest.Service.csproj", "{A34CF765-6590-4562-B369-76C4B76DA58F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{043B32A0-B54A-4B26-808A-3B5AFD7DFBAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{043B32A0-B54A-4B26-808A-3B5AFD7DFBAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{043B32A0-B54A-4B26-808A-3B5AFD7DFBAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A34CF765-6590-4562-B369-76C4B76DA58F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34CF765-6590-4562-B369-76C4B76DA58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34CF765-6590-4562-B369-76C4B76DA58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34CF765-6590-4562-B369-76C4B76DA58F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,6 +11,7 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest.Model\obj\Debug\net6.0\refint
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest.Model\obj\Debug\net6.0\OnlineTest.Model.pdb
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest.Model\obj\Debug\net6.0\ref\OnlineTest.Model.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\bin\Debug\net6.0\OnlineTest.Model.deps.json
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\bin\Debug\net6.0\OnlineTest.Model.runtimeconfig.json
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\bin\Debug\net6.0\OnlineTest.Model.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\bin\Debug\net6.0\OnlineTest.Model.pdb
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\OnlineTest.Model.csproj.AssemblyReference.cache
@@ -21,4 +22,5 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\ob
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\OnlineTest.Model.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\refint\OnlineTest.Model.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\OnlineTest.Model.pdb
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\OnlineTest.Model.genruntimeconfig.cache
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Model\obj\Debug\net6.0\ref\OnlineTest.Model.dll
