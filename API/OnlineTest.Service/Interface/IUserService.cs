@@ -1,4 +1,5 @@
 ﻿using OnlineTest.Model;
+using OnlineTest.Service.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,7 @@ namespace OnlineTest.Service.Interface
 {
     public interface IUserService
     {
-        List<User> GetAllUser();
-        User GetUserById(int id);
-        void AddUser(User user);
-        void DeleteUserById(User user);
-        void UpdateUser(User user);
+        List<UserDTO> GetUsers();
+        bool AddUser(UserDTO user);
     }
 }

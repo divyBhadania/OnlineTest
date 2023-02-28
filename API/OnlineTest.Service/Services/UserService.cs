@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineTest.Model;
+using OnlineTest.Model.Interface;
+using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -11,42 +13,36 @@ namespace OnlineTest.Service.Services
 {
     public class UserService : IUserService
     {
-        private OnlineTestContext _context;
-        public UserService(OnlineTestContext context)
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
-        public List<User> GetAllUser()
+        public bool AddUser(UserDTO user)
         {
-            return _context.Users.ToList();
+            return _userRepository.AddUser(new User { Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password });
         }
 
-        public User GetUserById(int id)
+        public List<UserDTO> GetUsers()
         {
-            return _context.Users.Where(x => x.UserId.Equals(id)).FirstOrDefault();
-        }
-
-        public void UpdateUser(User user)
-        {
-            _context.Entry(user).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void DeleteUserById(User user)
-        {
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
+                var users = _userRepository.GetUsers().Select(s => new UserDTO()
+                {
+                    Name = s.Name,
+                    Email = s.Email,
+                    MobileNo = s.MobileNo,
+                    Password = s.Password,
+                    UserId = s.UserId
+                }).ToList();
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
-
-        public void AddUser(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-        }
-
     }
 }

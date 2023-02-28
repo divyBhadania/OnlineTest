@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineTest;
+using OnlineTest.Model.Interface;
+using OnlineTest.Model.Repository;
 using OnlineTest.Service.Interface;
 using OnlineTest.Service.Services;
 using System.Configuration;
@@ -11,7 +13,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region Services and Repository
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+#endregion
+
 builder.Services.AddDbContext<OnlineTestContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("SQLAuth")
     ));
