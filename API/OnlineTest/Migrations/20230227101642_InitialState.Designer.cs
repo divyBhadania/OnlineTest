@@ -10,7 +10,7 @@ using OnlineTest;
 
 namespace OnlineTest.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
+    [DbContext(typeof(OnlineTestContext))]
     [Migration("20230227101642_InitialState")]
     partial class InitialState
     {

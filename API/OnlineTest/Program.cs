@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(
+builder.Services.AddDbContext<OnlineTestContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("SQLAuth")
     ));
 

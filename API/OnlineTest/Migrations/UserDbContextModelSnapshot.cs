@@ -9,7 +9,7 @@ using OnlineTest;
 
 namespace OnlineTest.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
+    [DbContext(typeof(OnlineTestContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace OnlineTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.User", b =>
@@ -66,7 +66,7 @@ namespace OnlineTest.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>
@@ -89,7 +89,7 @@ namespace OnlineTest.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>
