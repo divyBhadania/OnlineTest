@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using OnlineTest.Model;
+using OnlineTest.Service.DTO;
+using OnlineTest.Service.Interface;
+using OnlineTest.Service.Services;
 
 namespace OnlineTest.Controllers
 {
@@ -10,53 +13,24 @@ namespace OnlineTest.Controllers
     [ApiController]
     public class userController : ControllerBase
     {
-        private readonly OnlineTestContext _context;
-        public userController(OnlineTestContext context) {
-            _context= context;
+        public readonly IUserService _userService;
+        public userController(IUserService userService)
+        {
+            _userService = userService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> Get()
+        public ActionResult<UserDTO> Get()
         {
-            var data = await _context.Users.ToListAsync();
+            var data = _userService.GetUsers();
             return Ok(data);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(int id)
-        {
-            var data = await _context.Users.FindAsync(id);
-            return data != null ? Ok(data) : NotFound("User Not Found");
-        }
-
         [HttpPost]
-        [Route("adduser")]
-        public async Task<ActionResult<User>> Post(User user)
+        public IActionResult Post(UserDTO user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(_userService.AddUser(user));
         }
 
-        [HttpDelete()]
-        [Route("deleteuser")]
-        public async Task<ActionResult<User>> Delete(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return user == null ? NotFound() : Ok();
-        }
-
-        [HttpPut()]
-        [Route("updateuser")]
-        public async Task<ActionResult<User>> Put(int id , User user)
-        {
-            if (id != user.UserId)
-                return BadRequest();
-
-            return Ok();
-        }
-      
     }
 }

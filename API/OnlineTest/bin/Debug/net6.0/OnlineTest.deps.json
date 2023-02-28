@@ -668,6 +668,9 @@
         }
       },
       "OnlineTest.Service/1.0.0": {
+        "dependencies": {
+          "OnlineTest.Model": "1.0.0"
+        },
         "runtime": {
           "OnlineTest.Service.dll": {}
         }

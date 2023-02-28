@@ -10,3 +10,6 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\obj\Debug\net6.0\refint\OnlineTest.Service.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\obj\Debug\net6.0\OnlineTest.Service.pdb
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\obj\Debug\net6.0\ref\OnlineTest.Service.dll
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\bin\Debug\net6.0\OnlineTest.Model.dll
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\bin\Debug\net6.0\OnlineTest.Model.pdb
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest.Service\obj\Debug\net6.0\OnlineTest.Service.csproj.CopyComplete
