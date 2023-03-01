@@ -48,7 +48,7 @@ namespace OnlineTest.Controllers
         {
             try
             {
-                var userDto = _userService.GetUsers().Where(i => i.UserId==id).FirstOrDefault();
+                var userDto = _userService.GetUsers().Where(i => i.Id == id).FirstOrDefault();
                 _userService.DeleteUser(userDto);
                 return Ok();   
             }
