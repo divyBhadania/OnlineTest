@@ -15,5 +15,6 @@ namespace OnlineTest.Service.Interface
         bool UpdateUser(UserDTO user);
 
         bool DeleteUser(UserDTO user);
+        UserDTO SeachUser(int? id = null, String? email = null);
     }
 }

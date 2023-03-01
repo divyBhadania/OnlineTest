@@ -49,8 +49,13 @@ namespace OnlineTest.Controllers
             try
             {
                 var userDto = _userService.GetUsers().Where(i => i.Id == id).FirstOrDefault();
-                _userService.DeleteUser(userDto);
-                return Ok();   
+                if (userDto != null)
+                {
+                    _userService.DeleteUser(userDto);
+                    return Ok();
+                }
+                else
+                    return BadRequest("User Not Found");
             }
             catch
             {
@@ -59,9 +64,9 @@ namespace OnlineTest.Controllers
         }
 
         [HttpGet("search")]
-        public ActionResult<UserDTO> SearchQuery(int id, int mobile)
+        public ActionResult<UserDTO> SearchQuery(int? id = null, string? email = null)
         {
-            return Ok();
+            return Ok(_userService.SeachUser(id , email));
         }
     }
 }

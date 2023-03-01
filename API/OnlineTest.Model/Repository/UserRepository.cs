@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineTest.Model.Interface;
+using System.Collections.Immutable;
+
 namespace OnlineTest.Model.Repository
 {
     public class UserRepository : IUserRepository
@@ -33,9 +35,19 @@ namespace OnlineTest.Model.Repository
             return true;
         }
 
-        public User SeachUser(int id, int? mobile = null)
+        public User SeachUser(int? id=null, string? email = null)
         {
-            throw new NotImplementedException();
+            return _context.Users.Where(i => (id != null ? i.Id == id : true)).
+                    Where(i => (email != null ? i.Email==email : true)).
+                    FirstOrDefault();
+
+            //return (User)(from e in _context.Users.ToImmutableArray()
+            //              where (email != null ? e.Email == email : true) && e.Id == id
+            //              select e);
+            //var data = (from e in _context.Users
+            //                  where e.Id == id
+            //                  select e);
+            //return (User)data;
         }
     }
 }
