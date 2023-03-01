@@ -51,5 +51,27 @@ namespace OnlineTest.Service.Services
             _userRepository.DeleteUser(new User { Id = user.Id, Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password, IsActive = user.IsActive });
             return true;
         }
+
+        public UserDTO SeachUser(int? id = null, string? email = null)
+        {
+            try
+            {
+                var user = _userRepository.SeachUser(id, email);
+                return new UserDTO
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    MobileNo = user.MobileNo,
+                    Name = user.Name,
+                    Password = user.Password,
+                    IsActive = user.IsActive
+                };
+
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
