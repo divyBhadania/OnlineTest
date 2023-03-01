@@ -19,7 +19,6 @@ namespace OnlineTest.Model.Repository
             return _context.SaveChanges() > 0;
         }
 
-
         public bool UpdateUser(User user)
         {
             _context.Entry(user).State = EntityState.Modified;

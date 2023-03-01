@@ -22,7 +22,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddDbContext<OnlineTestContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth") , b => b.MigrationsAssembly("OnlineTest.Model"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
