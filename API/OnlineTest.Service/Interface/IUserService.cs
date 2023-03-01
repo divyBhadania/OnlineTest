@@ -14,5 +14,6 @@ namespace OnlineTest.Service.Interface
         bool AddUser(UserDTO user);
         bool UpdateUser(UserDTO user);
 
+        bool DeleteUser(UserDTO user);
     }
 }
