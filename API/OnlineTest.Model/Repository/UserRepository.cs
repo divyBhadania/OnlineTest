@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineTest.Model.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OnlineTest.Model.Repository
 {
     public class UserRepository : IUserRepository
@@ -15,25 +9,32 @@ namespace OnlineTest.Model.Repository
         {
             _context = context;
         }
-        public async Task<bool> AddUser(User user)
+        public IEnumerable<User>  GetUsers()
+        {
+            return _context.Users.ToList();
+        }
+        public bool AddUser(User user)
         {
              _context.Users.Add(user);
-            return await _context.SaveChangesAsync() > 0;
+            return _context.SaveChanges() > 0;
         }
 
-        public async Task<IEnumerable<User>>  GetUsers()
-        {
-            return await _context.Users.ToListAsync(); ;
-        }
 
-        public async Task<bool> UpdateUser(User user)
+        public bool UpdateUser(User user)
         {
             _context.Entry(user).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return true;
         }
 
         public bool DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public User SeachUser(int id, int? mobile = null)
         {
             throw new NotImplementedException();
         }

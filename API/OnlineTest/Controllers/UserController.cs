@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using OnlineTest.Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
-using OnlineTest.Service.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineTest.Controllers
 {
@@ -26,13 +23,13 @@ namespace OnlineTest.Controllers
             return Ok(data);
         }
 
-        [HttpPost("adduser")]
+        [HttpPost("add")]
         public IActionResult Post(UserDTO user)
         {
             return Ok(_userService.AddUser(user));
         }
 
-        [HttpPut("updateuser")]
+        [HttpPut("update")]
         public IActionResult UpdateUser(UserDTO user)
         {
             try
@@ -40,10 +37,31 @@ namespace OnlineTest.Controllers
                 _userService.UpdateUser(user);
                 return Ok();
             }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var userDto = _userService.GetUsers().Where(i => i.UserId==id).FirstOrDefault();
+                _userService.DeleteUser(userDto);
+                return Ok();   
+            }
             catch
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("search")]
+        public ActionResult<UserDTO> SearchQuery(int id, int mobile)
+        {
+            return Ok();
         }
     }
 }

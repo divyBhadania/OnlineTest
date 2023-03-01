@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using OnlineTest;
 using OnlineTest.Model.Interface;
 using OnlineTest.Model.Repository;
@@ -19,9 +20,11 @@ builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 #endregion
 
-builder.Services.AddDbContext<OnlineTestContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("SQLAuth")
-    ));
+builder.Services.AddDbContext<OnlineTestContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
 var app = builder.Build();
 
