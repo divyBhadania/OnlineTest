@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "K6XDJGrCbqFtClS0qQj+vJXwpyjBSkZZan37UZuRxfGjkIf4SDb0qGlgcKfv7AodB+01jWCobBgTo0/Q9D5U2Q==",
+  "dgSpecHash": "86mtCSaKTMv8tTbuddTeU1safRx/6L7jBKxPIHR/f9U1oObT5d3rzWD/kciiRWm9s6jntXtH/VI2CMDXayK26g==",
   "success": true,
   "projectFilePath": "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest.Service\\OnlineTest.Service.csproj",
   "expectedPackageFiles": [
@@ -42,6 +42,7 @@
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\bhada\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/xV7L7iFUzyICubx/Bf1y+aoB8JLBoMf93Ht3mYiQ9fse0NcU7rP+zYV+VKBj5MxN1OKJgO97uotWWbc0aL3DQ==",
+  "dgSpecHash": "0gYVl17Y69u5wBcxzkZm3/Sfo/AeWuRX3Dk4pYfYxipgfJHZddKZt58ZJkJWT/cbV/4kAEoMWNTHGu4Y2PImOw==",
   "success": true,
   "projectFilePath": "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest\\OnlineTest.csproj",
   "expectedPackageFiles": [
@@ -44,6 +44,7 @@
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\bhada\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
+using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System.ComponentModel.DataAnnotations;
@@ -17,29 +19,103 @@ namespace OnlineTest.Controllers
         }
 
         [HttpGet]
-        public ActionResult<UserDTO> Get()
+        public ActionResult Get()
         {
-            var data = _userService.GetUsers();
-            return Ok(data);
+            try
+            {
+                var user = _userService.GetUsers();
+                if (user.Count > 0)
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = user,
+                        status = 200,
+                        message = "All users data"
+                    }));
+                else
+                    return NotFound(JsonConvert.SerializeObject(new
+                    {
+                        data = user,
+                        status = 404,
+                        message = "No data Found"
+                    }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
+            }
         }
 
         [HttpPost("add")]
         public IActionResult Post(UserDTO user)
         {
-            return Ok(_userService.AddUser(user));
+            try
+            {
+                if (_userService.AddUser(user))
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 200,
+                        message = "User added successfully"
+                    }));
+                else
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "User Not added"
+                    }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
+            }
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateUser(UserDTO user)
+        public IActionResult UpdateUser(int id, UserDTO user)
         {
+            if (user.Id != id)
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = "Data does not match User Id."
+                }));
             try
             {
-                _userService.UpdateUser(user);
-                return Ok();
+                if (_userService.UpdateUser(user))
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 200,
+                        message = "User update successfully"
+                    }));
+                else
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "User Not updated"
+                    }));
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
             }
         }
 
@@ -49,24 +125,71 @@ namespace OnlineTest.Controllers
             try
             {
                 var userDto = _userService.GetUsers().Where(i => i.Id == id).FirstOrDefault();
-                if (userDto != null)
+                if (userDto == null)
                 {
-                    _userService.DeleteUser(userDto);
-                    return Ok();
+                    return NotFound(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 404,
+                        message = "No User Found"
+                    }));
                 }
+                else if (_userService.DeleteUser(userDto))
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 200,
+                        message = "User deleted successfully"
+                    }));
                 else
-                    return BadRequest("User Not Found");
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "User Not deleted"
+                    }));
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
             }
         }
 
         [HttpGet("search")]
-        public ActionResult<UserDTO> SearchQuery(int? id = null, string? email = null)
+        public ActionResult<UserDTO> SearchQuery(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
-            return Ok(_userService.SeachUser(id , email));
+            try
+            {
+                var users = _userService.SeachUser(id, name, email, mobile, isactive);
+                if (users.Count > 0)
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = users,
+                        status = 200,
+                        message = "All users list related to query."
+                    }));
+                else
+                    return NotFound(JsonConvert.SerializeObject(new
+                    {
+                        data = users,
+                        status = 404,
+                        message = "No data Found."
+                    }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
+            }
         }
     }
 }
