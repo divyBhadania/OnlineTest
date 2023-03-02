@@ -12,6 +12,6 @@ namespace OnlineTest.Model.Interface
         bool AddUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);
-        User SeachUser(int? id = null, string? mobile = null);
+        IEnumerable<User> SeachUser(int? id = null,string? name = null, string? email=null, string? mobile = null, bool? isactive = null);
     }
 }

@@ -1,4 +1,5 @@
-﻿using OnlineTest.Model;
+﻿using Newtonsoft.Json;
+using OnlineTest.Model;
 using OnlineTest.Model.Interface;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
@@ -17,61 +18,72 @@ namespace OnlineTest.Service.Services
 
         public List<UserDTO> GetUsers()
         {
-            try
+            var users = _userRepository.GetUsers().Select(s => new UserDTO()
             {
-                var users = _userRepository.GetUsers().Select(s => new UserDTO()
-                {
-                    Name = s.Name,
-                    Email = s.Email,
-                    MobileNo = s.MobileNo,
-                    Password = s.Password,
-                    Id = s.Id,
-                    IsActive = s.IsActive,
-                }).ToList();
-                return users;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                Name = s.Name,
+                Email = s.Email,
+                MobileNo = s.MobileNo,
+                Password = s.Password,
+                Id = s.Id,
+                IsActive = s.IsActive,
+            }).ToList();
+            return users;
+
         }
         public bool AddUser(UserDTO user)
         {
-            _userRepository.AddUser(new User { Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password ,IsActive=user.IsActive });
-            return true;
+            return _userRepository.AddUser(new User
+            {
+                Email = user.Email,
+                MobileNo = user.MobileNo,
+                Name = user.Name,
+                Password = user.Password
+            }); ;
+
         }
 
         public bool UpdateUser(UserDTO user)
         {
-            _userRepository.UpdateUser(new User { Id = user.Id, Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password, IsActive = user.IsActive });
-            return true;
+            return _userRepository.UpdateUser(new User
+            {
+                Id = user.Id,
+                Email = user.Email,
+                MobileNo = user.MobileNo,
+                Name = user.Name,
+                Password = user.Password,
+                IsActive = user.IsActive
+            }); ;
         }
         public bool DeleteUser(UserDTO user)
         {
-            _userRepository.DeleteUser(new User { Id = user.Id, Email = user.Email, MobileNo = user.MobileNo, Name = user.Name, Password = user.Password, IsActive = user.IsActive });
-            return true;
+            return _userRepository.DeleteUser(new User
+            {
+                Id = user.Id,
+                Email = user.Email,
+                MobileNo = user.MobileNo,
+                Name = user.Name,
+                Password = user.Password,
+                IsActive = user.IsActive
+            }); ;
         }
 
-        public UserDTO SeachUser(int? id = null, string? email = null)
+        public List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
-            try
+            var userDTO = new List<UserDTO>();
+            foreach(var i in _userRepository.SeachUser(id, name, email, mobile , isactive))
             {
-                var user = _userRepository.SeachUser(id, email);
-                return new UserDTO
+                userDTO.Add(new UserDTO
                 {
-                    Id = user.Id,
-                    Email = user.Email,
-                    MobileNo = user.MobileNo,
-                    Name = user.Name,
-                    Password = user.Password,
-                    IsActive = user.IsActive
-                };
+                    Id = i.Id,
+                    Email = i.Email,
+                    MobileNo = i.MobileNo,
+                    Name = i.Name,
+                    Password = i.Password,
+                    IsActive = i.IsActive
+                });
+            }
+            return userDTO;
 
-            }
-            catch
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }
