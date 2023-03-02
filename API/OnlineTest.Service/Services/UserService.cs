@@ -70,7 +70,11 @@ namespace OnlineTest.Service.Services
         public List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
             var userDTO = new List<UserDTO>();
-            foreach(var i in _userRepository.SeachUser(id, name, email, mobile , isactive))
+            var data = _userRepository.SeachUser(id, name, email, mobile, isactive);
+            if (data == null) {
+                return new List<UserDTO>();
+            }
+            foreach (var i in data)
             {
                 userDTO.Add(new UserDTO
                 {
@@ -84,6 +88,16 @@ namespace OnlineTest.Service.Services
             }
             return userDTO;
 
+        }
+
+        public bool ActiveUser(int id, bool isactive)
+        {
+            return _userRepository.ActiveUser(id , isactive); 
+        }
+
+        public bool ChangePassword(int id,string oldpassword, string password)
+        {
+            return _userRepository.ChangePassword(id, oldpassword, password);
         }
     }
 }

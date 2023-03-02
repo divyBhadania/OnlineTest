@@ -166,7 +166,7 @@ namespace OnlineTest.Controllers
             try
             {
                 var users = _userService.SeachUser(id, name, email, mobile, isactive);
-                if (users.Count > 0)
+                if (users != null)
                     return Ok(JsonConvert.SerializeObject(new
                     {
                         data = users,
@@ -179,6 +179,72 @@ namespace OnlineTest.Controllers
                         data = users,
                         status = 404,
                         message = "No data Found."
+                    }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
+            }
+        }
+
+        [HttpPut("active")]
+        public ActionResult ActiveUser(int id, bool isactive = true)
+        {
+            try
+            {
+                if(_userService.ActiveUser(id, isactive))
+                {
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 200,
+                        message = "Change user status successfully."
+                    }));
+                }
+                else
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "No change in user status."
+                    }));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 400,
+                    message = ex.Message
+                }));
+            }
+        }
+
+        [HttpPut("changepassword")]
+        public ActionResult ChangePassword([Required] int id, [Required] string oldpassword , [Required]string password)
+        {
+            try
+            {
+                if (_userService.ChangePassword(id, oldpassword, password))
+                {
+                    return Ok(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 200,
+                        message = "Password change successfully."
+                    }));
+                }
+                else
+                    return NotFound(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 404,
+                        message = "Incorect old password."
                     }));
             }
             catch (Exception ex)
