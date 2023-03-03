@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OnlineTest.Model;
+﻿using OnlineTest.Model;
 using OnlineTest.Model.Interface;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
@@ -16,9 +15,9 @@ namespace OnlineTest.Service.Services
             _userRepository = userRepository;
         }
 
-        public List<UserDTO> GetUsers()
+        public List<UserDTO> GetUsers(int page, int? limit = null)
         {
-            var users = _userRepository.GetUsers().Select(s => new UserDTO()
+            var users = _userRepository.GetUsers(page, limit).Select(s => new UserDTO()
             {
                 Name = s.Name,
                 Email = s.Email,
@@ -38,7 +37,7 @@ namespace OnlineTest.Service.Services
                 MobileNo = user.MobileNo,
                 Name = user.Name,
                 Password = user.Password
-            }); ;
+            }); 
 
         }
 
@@ -70,8 +69,8 @@ namespace OnlineTest.Service.Services
         public List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
             var userDTO = new List<UserDTO>();
-            var data = _userRepository.SeachUser(id, name, email, mobile, isactive);
-            if (data == null) {
+            var data = _userRepository.SeachUser(id, name, email, mobile, isactive).ToList();
+            if (data.Count ==0) {
                 return new List<UserDTO>();
             }
             foreach (var i in data)
@@ -99,5 +98,6 @@ namespace OnlineTest.Service.Services
         {
             return _userRepository.ChangePassword(id, oldpassword, password);
         }
+
     }
 }

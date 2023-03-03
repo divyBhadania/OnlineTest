@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OnlineTest.Model.Interface
+﻿namespace OnlineTest.Model.Interface
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetUsers();
+        IEnumerable<User> GetUsers(int next, int? limit = null);
         bool AddUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);
