@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#region Services and Repository
+#region Dependency injection Services and Repository
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 #endregion
@@ -28,8 +28,7 @@ builder.Services.AddDbContext<OnlineTestContext>(options =>
 
 var app = builder.Build();
 
-
-// Configure the HTTP request pipeline.
+#region Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -43,3 +42,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+#endregion

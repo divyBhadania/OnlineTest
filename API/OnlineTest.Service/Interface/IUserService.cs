@@ -1,16 +1,10 @@
 ﻿using OnlineTest.Model;
 using OnlineTest.Service.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OnlineTest.Service.Interface
 {
     public interface IUserService
     {
-        List<UserDTO> GetUsers();
+        List<UserDTO> GetUsers(int next, int? limit = null);
         bool AddUser(UserDTO user);
         bool UpdateUser(UserDTO user);
 
@@ -18,6 +12,5 @@ namespace OnlineTest.Service.Interface
         List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null);
         bool ActiveUser(int id, bool isactive);
         bool ChangePassword(int id, string oldpassword, string password);
-
     }
 }

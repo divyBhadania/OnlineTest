@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
-using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System.ComponentModel.DataAnnotations;
@@ -10,20 +8,21 @@ namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class userController : ControllerBase
+    public class UserController : ControllerBase
     {
         public readonly IUserService _userService;
-        public userController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult Get(int? limit = null , int? page=null)
         {
             try
             {
-                var user = _userService.GetUsers();
+                page = page == null ? 1 : page;
+                var user = _userService.GetUsers((int)page, limit);
                 if (user.Count > 0)
                     return Ok(JsonConvert.SerializeObject(new
                     {
@@ -55,6 +54,16 @@ namespace OnlineTest.Controllers
         {
             try
             {
+                var data = _userService.SeachUser(email : user.Email);
+                if(data.Count != 0)
+                {
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "Email id already exits."
+                    }));
+                }
                 if (_userService.AddUser(user))
                     return Ok(JsonConvert.SerializeObject(new
                     {
@@ -82,17 +91,27 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateUser(int id, UserDTO user)
+        public IActionResult UpdateUser(UserDTO user)
         {
-            if (user.Id != id)
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = "Data does not match User Id."
-                }));
             try
             {
+                var data = _userService.SeachUser(email: user.Email);
+                if (data.Count != 0 && data.FirstOrDefault().Id != user.Id)
+                {
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "Email id already exits with different account."
+                    }));
+                }
+                if (_userService.SeachUser(user.Id).Count == 0)
+                    return BadRequest(JsonConvert.SerializeObject(new
+                    {
+                        data = "",
+                        status = 400,
+                        message = "Invalid User Id."
+                    }));
                 if (_userService.UpdateUser(user))
                     return Ok(JsonConvert.SerializeObject(new
                     {
@@ -105,7 +124,7 @@ namespace OnlineTest.Controllers
                     {
                         data = "",
                         status = 400,
-                        message = "User Not updated"
+                        message = "User data Not updated"
                     }));
             }
             catch (Exception ex)
@@ -124,7 +143,7 @@ namespace OnlineTest.Controllers
         {
             try
             {
-                var userDto = _userService.GetUsers().Where(i => i.Id == id).FirstOrDefault();
+                var userDto = _userService.GetUsers(next : 0).Where(i => i.Id == id).FirstOrDefault();
                 if (userDto == null)
                 {
                     return NotFound(JsonConvert.SerializeObject(new
@@ -197,7 +216,7 @@ namespace OnlineTest.Controllers
         {
             try
             {
-                if(_userService.ActiveUser(id, isactive))
+                if (_userService.ActiveUser(id, isactive))
                 {
                     return Ok(JsonConvert.SerializeObject(new
                     {
@@ -214,7 +233,7 @@ namespace OnlineTest.Controllers
                         message = "No change in user status."
                     }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(JsonConvert.SerializeObject(new
                 {
@@ -226,7 +245,7 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPut("changepassword")]
-        public ActionResult ChangePassword([Required] int id, [Required] string oldpassword , [Required]string password)
+        public ActionResult ChangePassword([Required] int id, [Required] string oldpassword, [Required] string password)
         {
             try
             {

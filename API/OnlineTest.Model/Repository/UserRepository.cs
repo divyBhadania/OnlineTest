@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineTest.Model.Interface;
-using System.Collections.Immutable;
+
 
 namespace OnlineTest.Model.Repository
 {
@@ -11,9 +11,9 @@ namespace OnlineTest.Model.Repository
         {
             _context = context;
         }
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> GetUsers(int page, int? limit = null)
         {
-            return _context.Users;
+            return limit == null ? _context.Users : _context.Users.Skip((page - 1) * (int)limit).Take((int)limit);
         }
         public bool AddUser(User user)
         {
@@ -41,15 +41,14 @@ namespace OnlineTest.Model.Repository
                         Where(i => (email != null ? i.Email.Contains(email) : true)).
                         Where(i => (mobile != null ? i.MobileNo.Contains(mobile) : true)).
                         Where(i => (isactive != null ? i.IsActive == isactive : true));
-            return null;
-
             //return from e in _context.Users
-            //       where (id != null ? e.Id == id : true) &&
-            //       (name != null ? e.Name == name : true) &&
-            //       (email != null ? e.Email == email : true) &&
-            //       (mobile != null ? e.MobileNo == mobile : true) &&
-            //       (isactive != null ? e.IsActive == isactive : true)
-            //       select e;
+            //           where (id != null ? e.Id == id : true) &&
+            //           (name != null ? e.Name == name : true) &&
+            //           (email != null ? e.Email == email : true) &&
+            //           (mobile != null ? e.MobileNo == mobile : true) &&
+            //           (isactive != null ? e.IsActive == isactive : true)
+            //           select e;
+            return null;
         }
 
         public bool ActiveUser(int id, bool isactive)
