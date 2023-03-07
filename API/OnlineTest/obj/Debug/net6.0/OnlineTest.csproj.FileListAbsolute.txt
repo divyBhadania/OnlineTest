@@ -97,6 +97,7 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debu
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Azure.Core.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Azure.Identity.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Humanizer.dll
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "0gYVl17Y69u5wBcxzkZm3/Sfo/AeWuRX3Dk4pYfYxipgfJHZddKZt58ZJkJWT/cbV/4kAEoMWNTHGu4Y2PImOw==",
+  "dgSpecHash": "A0C2sma6X45gt9t2S1KPy1CThNuHFKGajmSkUEArb8K3cj16p9AHF/WAjigzq9BWx9WKyJRq6BRqlbDlVdTOyQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest\\OnlineTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bhada\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\bhada\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.14\\microsoft.aspnetcore.authentication.jwtbearer.6.0.14.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.1\\microsoft.data.sqlclient.5.0.1.nupkg.sha512",

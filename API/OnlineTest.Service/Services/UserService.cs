@@ -2,7 +2,7 @@
 using OnlineTest.Model.Interface;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
-
+using OnlineTest.Services.DTO;
 
 namespace OnlineTest.Service.Services
 {
@@ -99,5 +99,17 @@ namespace OnlineTest.Service.Services
             return _userRepository.ChangePassword(id, oldpassword, password);
         }
 
+        public UserDTO IsUserExists(TokenDTO model)
+        {
+            var user = (_userRepository.GetUsers(1,null).FirstOrDefault(x => x.Email.ToLower() == model.Username.ToLower() && x.Password == model.Password));
+            if (user == null)
+                throw new Exception("User not found ..!!");
+            return new UserDTO()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+            };
+        }
     }
 }
