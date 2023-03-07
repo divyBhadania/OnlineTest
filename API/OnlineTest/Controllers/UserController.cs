@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +19,8 @@ namespace OnlineTest.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        
         public ActionResult Get(int? limit = null , int? page=null)
         {
             try
@@ -45,7 +49,7 @@ namespace OnlineTest.Controllers
                     data = "",
                     status = 400,
                     message = ex.Message
-                }));
+                }), new JsonSerializerSettings { Formatting = Formatting.Indented }));
             }
         }
 
