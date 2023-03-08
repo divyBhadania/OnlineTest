@@ -7,26 +7,25 @@ using OnlineTest.Model.Interface;
 using OnlineTest.Model.Repository;
 using OnlineTest.Service.Interface;
 using OnlineTest.Service.Services;
-using OnlineTest.Services.DTO;
 using OnlineTest.Services.Interface;
 using OnlineTest.Services.Services;
+using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 #region Dependency injection Services and Repository
-builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IUserServices, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRTokenRepository, RTokenRepository>();
 builder.Services.AddScoped<IRTokenService, RTokenService>();
-builder.Services.Configure<JWTConfigDTO>(builder.Configuration.GetSection("JWTConfig"));
+builder.Services.AddScoped<IUserRolesServices, UserRolesServices>();
+builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
+//builder.Services.Configure<JWTConfigDTO>(builder.Configuration.GetSection("JWTConfig"));
 #endregion
 
 #region JWT Config
@@ -36,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
-                      Enter 'Bearer' [space] and then your token in the text input below.
+                      Enter 'Bearer' [space] and then your Bearer in the text input below.
                       \r\n\r\nExample: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
@@ -67,7 +66,7 @@ ConfigureJwtAuthService(builder.Services);
 
 builder.Services.AddDbContext<OnlineTestContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth") , b => b.MigrationsAssembly("OnlineTest.Model"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLAuth"), b => b.MigrationsAssembly("OnlineTest.Model"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
@@ -79,13 +78,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+//else
+//{
+//    app.UseExceptionHandler(
+//        options => options.Run(
+//            async context =>
+//            {
+//                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+//                var ex = context.Features.Get<IExceptionHandlerFeature>();
+//                if(ex != null)
+//                    await context.Response.WriteAsync(ex.Error.Message);
+//            }
+//            )
+//        );
+//}
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 #endregion
 
@@ -106,7 +116,7 @@ void ConfigureJwtAuthService(IServiceCollection services)
         ValidateAudience = false,
         ValidAudience = audienceConfig["Audience"],
         ValidateLifetime = true,
-
+        RoleClaimType = "Role",
         ClockSkew = TimeSpan.Zero
     };
 
