@@ -8,6 +8,7 @@ using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using OnlineTest.Services.DTO;
 using OnlineTest.Services.Interface;
+using System.Data;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,52 +20,47 @@ namespace OnlineTest.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUserServices _userService;
         private readonly IRTokenService _rTokenService;
-        private readonly IOptions<JWTConfigDTO> _jwtConfig;
-        public TokenController(IUserService userService, IRTokenService rTokenService, IOptions<JWTConfigDTO> jwtConfig)
+        private readonly IConfiguration _jwtConfig;
+        private readonly IUserRolesServices _userRolesService;
+        public TokenController(IUserServices userService, IRTokenService rTokenService, IConfiguration jwtConfig , IUserRolesServices userRolesService)
         {
             _userService = userService;
             _rTokenService = rTokenService;
-            _jwtConfig = jwtConfig;
+            _jwtConfig = jwtConfig.GetSection("JWTConfig");
+            _userRolesService = userRolesService;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <exception cref="Exception"></exception>
         [HttpPost]
         [Route("Auth")]
-        public void Auth([FromBody] TokenDTO parameters)
+        public ActionResult Auth([FromBody] TokenDTO parameters)
         {
             switch (parameters.Grant_Type)
             {
                 case "password" when string.IsNullOrEmpty(parameters.Username):
-                    throw new Exception("Enter Username.");
+                    return BadRequest("Enter User Name");
                 case "password" when string.IsNullOrEmpty(parameters.Username) && string.IsNullOrEmpty(parameters.Password):
-                    throw new Exception("Enter Username & Password.");
+                    return BadRequest("Enter Username & Password.");
                 case "password" when !string.IsNullOrEmpty(parameters.Username) && !string.IsNullOrEmpty(parameters.Password):
-                    Login(parameters);
-                    break;
+                    return Login(parameters);
                 case "password" when !string.IsNullOrEmpty(parameters.Username) && parameters.Password == "":
-                    throw new Exception("Enter Password.");
+                    return BadRequest("Enter Password.");
                 case "password":
-                    throw new Exception("Something Went Wrong, Try Again.");
+                    return BadRequest("Something Went Wrong, Try Again.");
                 case "refresh_token":
-                    RefreshToken(parameters);
-                    break;
+                    return RefreshToken(parameters);
                 default:
-                    throw new Exception("Invalid grant_type.");
+                    return BadRequest("Invalid grant_type.");
             }
         }
 
-        private void Login(TokenDTO parameters)
+        private ActionResult Login(TokenDTO parameters)
         {
             var sessionModel = _userService.IsUserExists(parameters);
             if (sessionModel == null)
             {
-                throw new Exception("Invalid Username or Password.");
+                return BadRequest("Invalid Username or Password.");
             }
 
             var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
@@ -73,41 +69,39 @@ namespace OnlineTest.Controllers
             {
                 RefreshToken = refreshToken,
                 IsStop = 0,
-                Id = sessionModel.Id,
+                UserId = sessionModel.Id,
                 CreatedDate = DateTime.Now
             };
 
             //store the refresh_token
             if (_rTokenService.AddToken(rToken))
             {
-                GetJwt(sessionModel, refreshToken);
+                return Ok(GetJwt(sessionModel, refreshToken));
             }
             else
             {
-                throw new Exception("Failed to Add Token.");
+                return BadRequest("Failed to Add Token.");
             }
         }
 
-        private void RefreshToken(TokenDTO parameters)
+        private ActionResult RefreshToken(TokenDTO parameters)
         {
             var token = _rTokenService.GetToken(parameters.Refresh_Token);
 
             if (token == null)
             {
-                throw new Exception("Can not refresh token.");
+                return BadRequest("Can not refresh token.");
             }
 
             if (token.IsStop == 1)
             {
-                throw new Exception("Refresh token has expired.");
+                return BadRequest("Refresh token has expired.");
             }
 
             var refreshToken = Guid.NewGuid().ToString().Replace("-", "");
 
             token.IsStop = 1;
-            //expire the old refresh_token and add a new refresh_token
             var updateFlag = _rTokenService.ExpireToken(token);
-
             var addFlag = _rTokenService.AddToken(new RToken
             {
                 RefreshToken = refreshToken,
@@ -118,33 +112,35 @@ namespace OnlineTest.Controllers
 
             if (updateFlag && addFlag)
             {
-                GetJwt(refreshToken);
+                return Ok(GetJwt(token.UserId , refreshToken));
             }
             else
             {
-                throw new Exception("Can not expire token or a new token");
+                return BadRequest("Can not expire token or a new token");
             }
         }
 
-        private async Task GetJwt(UserDTO sessionModel, string refreshToken)
+        private string GetJwt(UserDTO sessionModel, string refreshToken)
         {
             var now = DateTime.UtcNow;
+            var role = _userRolesService.GetById(sessionModel.Id);
             var claims = new[]
             {
                 new Claim("Email", sessionModel.Email),
                 new Claim("Jti", Guid.NewGuid().ToString()),
                 new Claim("Iat", now.ToUniversalTime().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
                 new Claim("UserId",Convert.ToString(sessionModel.Id)),
-                new Claim("Name",Convert.ToString(sessionModel.Email))
+                new Claim("Name",Convert.ToString(sessionModel.Email)),
+                new Claim("Role" , role.Contains(1) ? "Admin" : role.Contains(0) ? "User" : "")
             };
 
-            var symmetricKeyAsBase64 = _jwtConfig.Value.SecretKey;
+            var symmetricKeyAsBase64 = _jwtConfig["SecretKey"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
 
             var jwt = new JwtSecurityToken(
-                issuer: _jwtConfig.Value.Issuer,
-                audience: _jwtConfig.Value.Aud,
+                issuer: _jwtConfig["Issuer"],
+                audience: _jwtConfig["Audience"],
                 claims: claims,
                 notBefore: now,
                 expires: now.Add(TimeSpan.FromHours(24)),
@@ -160,28 +156,28 @@ namespace OnlineTest.Controllers
                 user_Id = sessionModel.Id
             };
 
-            Request.HttpContext.Response.ContentType = "application/json";
-            await Request.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
 
-        private void GetJwt(string refreshToken)
+        private string GetJwt(int id ,string refreshToken)
         {
             var now = DateTime.UtcNow;
-
+            var role = _userRolesService.GetById(id);
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, refreshToken),
                 new Claim("Jti", Guid.NewGuid().ToString()),
-                new Claim("Iat", now.ToUniversalTime().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64)
+                new Claim("Iat", now.ToUniversalTime().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
+                new Claim("Role" , role.Contains(1) ? "Admin" : role.Contains(0) ? "User" : ""),
             };
 
-            var symmetricKeyAsBase64 = _jwtConfig.Value.SecretKey;
+            var symmetricKeyAsBase64 = _jwtConfig["SecretKey"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
 
             var jwt = new JwtSecurityToken(
-                issuer: _jwtConfig.Value.Issuer,
-                audience: _jwtConfig.Value.Aud,
+                issuer: _jwtConfig["Issuer"],
+                audience: _jwtConfig["Audience"],
                 claims: claims,
                 notBefore: now,
                 expires: now.Add(TimeSpan.FromHours(24)),
@@ -195,8 +191,7 @@ namespace OnlineTest.Controllers
                 refresh_token = refreshToken
             };
 
-            Request.HttpContext.Response.ContentType = "application/json";
-            Request.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
     }
 }

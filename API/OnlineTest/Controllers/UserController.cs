@@ -5,22 +5,22 @@ using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class UserController : ControllerBase
     {
-        public readonly IUserService _userService;
-        public UserController(IUserService userService)
+        public readonly IUserServices _userService;
+        public UserController(IUserServices userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        [Authorize]
-        
         public ActionResult Get(int? limit = null , int? page=null)
         {
             try
@@ -49,11 +49,12 @@ namespace OnlineTest.Controllers
                     data = "",
                     status = 400,
                     message = ex.Message
-                }), new JsonSerializerSettings { Formatting = Formatting.Indented }));
+                }));
             }
         }
 
         [HttpPost("add")]
+        //[AllowAnonymous]
         public IActionResult Post(UserDTO user)
         {
             try
@@ -170,104 +171,6 @@ namespace OnlineTest.Controllers
                         data = "",
                         status = 400,
                         message = "User Not deleted"
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
-        }
-
-        [HttpGet("search")]
-        public ActionResult<UserDTO> SearchQuery(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
-        {
-            try
-            {
-                var users = _userService.SeachUser(id, name, email, mobile, isactive);
-                if (users != null)
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = users,
-                        status = 200,
-                        message = "All users list related to query."
-                    }));
-                else
-                    return NotFound(JsonConvert.SerializeObject(new
-                    {
-                        data = users,
-                        status = 404,
-                        message = "No data Found."
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
-        }
-
-        [HttpPut("active")]
-        public ActionResult ActiveUser(int id, bool isactive = true)
-        {
-            try
-            {
-                if (_userService.ActiveUser(id, isactive))
-                {
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "Change user status successfully."
-                    }));
-                }
-                else
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "No change in user status."
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
-        }
-
-        [HttpPut("changepassword")]
-        public ActionResult ChangePassword([Required] int id, [Required] string oldpassword, [Required] string password)
-        {
-            try
-            {
-                if (_userService.ChangePassword(id, oldpassword, password))
-                {
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "Password change successfully."
-                    }));
-                }
-                else
-                    return NotFound(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 404,
-                        message = "Incorect old password."
                     }));
             }
             catch (Exception ex)

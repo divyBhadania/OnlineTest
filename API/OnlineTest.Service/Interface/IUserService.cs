@@ -4,7 +4,7 @@ using OnlineTest.Services.DTO;
 
 namespace OnlineTest.Service.Interface
 {
-    public interface IUserService
+    public interface IUserServices
     {
         List<UserDTO> GetUsers(int next, int? limit = null);
         bool AddUser(UserDTO user);

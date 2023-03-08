@@ -67,5 +67,9 @@ namespace OnlineTest.Model.Repository
             return false;
         }
 
+        public User GetByEmail(string email)
+        {
+            return _context.Users.Where(i => i.Email == email).FirstOrDefault();
+        }
     }
 }

@@ -3,6 +3,7 @@
     public interface IUserRepository
     {
         IEnumerable<User> GetUsers(int next, int? limit = null);
+        User GetByEmail(string email);
         bool AddUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);

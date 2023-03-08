@@ -6,13 +6,15 @@ using OnlineTest.Services.DTO;
 
 namespace OnlineTest.Service.Services
 {
-    public class UserService : IUserService
+    public class UserService : IUserServices
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserRolesRepository _userRolesRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository , IUserRolesRepository userRolesRepository)
         {
             _userRepository = userRepository;
+            _userRolesRepository = userRolesRepository;
         }
 
         public List<UserDTO> GetUsers(int page, int? limit = null)
@@ -31,14 +33,33 @@ namespace OnlineTest.Service.Services
         }
         public bool AddUser(UserDTO user)
         {
-            return _userRepository.AddUser(new User
+            if(_userRepository.AddUser(new User
             {
                 Email = user.Email,
                 MobileNo = user.MobileNo,
                 Name = user.Name,
                 Password = user.Password
-            }); 
-
+            }))
+            {
+                if(_userRolesRepository.AddRole(new UserRole
+                {
+                    UserId = _userRepository.SeachUser(email: user.Email).Select(i => i.Id).FirstOrDefault(),
+                    RoleId = 2
+                }))
+                {
+                    return true;
+                }
+                else
+                {
+                    var data = _userRepository.SeachUser(email: user.Email).FirstOrDefault();
+                    if(data != null)
+                    {
+                        _userRepository.DeleteUser(data);
+                        return false;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool UpdateUser(UserDTO user)
@@ -101,9 +122,9 @@ namespace OnlineTest.Service.Services
 
         public UserDTO IsUserExists(TokenDTO model)
         {
-            var user = (_userRepository.GetUsers(1,null).FirstOrDefault(x => x.Email.ToLower() == model.Username.ToLower() && x.Password == model.Password));
-            if (user == null)
-                throw new Exception("User not found ..!!");
+            var user = _userRepository.GetByEmail(model.Username);
+            if (user == null || !(user.Password ==model.Password))
+                return null;
             return new UserDTO()
             {
                 Id = user.Id,

@@ -11,8 +11,6 @@ namespace OnlineTest.Model.Repository
 {
     public class RTokenRepository : IRTokenRepository
     {
-
-
         private readonly OnlineTestContext _context;
         public RTokenRepository(OnlineTestContext context)
         {
