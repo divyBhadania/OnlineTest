@@ -143,7 +143,7 @@ namespace OnlineTest.Controllers
                 audience: _jwtConfig["Audience"],
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(TimeSpan.FromHours(24)),
+                expires: now.Add(TimeSpan.FromMinutes(1)),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -151,7 +151,7 @@ namespace OnlineTest.Controllers
             {
                 access_token = "Bearer " + encodedJwt,
                 username = sessionModel.Email ?? "",
-                expires_in = (int)TimeSpan.FromHours(24).TotalSeconds,
+                expires_in = (int)TimeSpan.FromHours(1).TotalSeconds,
                 refresh_token = refreshToken,
                 user_Id = sessionModel.Id
             };
@@ -180,14 +180,14 @@ namespace OnlineTest.Controllers
                 audience: _jwtConfig["Audience"],
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(TimeSpan.FromHours(24)),
+                expires: now.Add(TimeSpan.FromHours(1)),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             var response = new
             {
                 access_token = "Bearer " + encodedJwt,
-                expires_in = (int)TimeSpan.FromHours(24).TotalSeconds,
+                expires_in = (int)TimeSpan.FromHours(1).TotalSeconds,
                 refresh_token = refreshToken
             };
 

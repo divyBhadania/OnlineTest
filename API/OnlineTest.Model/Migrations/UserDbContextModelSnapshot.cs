@@ -22,6 +22,38 @@ namespace OnlineTest.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("OnlineTest.Model.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Que")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weightage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("Questions");
+                });
+
             modelBuilder.Entity("OnlineTest.Model.RToken", b =>
                 {
                     b.Property<int>("Id")
@@ -71,6 +103,76 @@ namespace OnlineTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.Technology", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TechName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ModifiedBy");
+
+                    b.ToTable("Technologies");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.Test", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpireOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TechnologyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("TechnologyId");
+
+                    b.ToTable("Tests");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.User", b =>
@@ -132,6 +234,17 @@ namespace OnlineTest.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("OnlineTest.Model.Question", b =>
+                {
+                    b.HasOne("OnlineTest.Model.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Test");
+                });
+
             modelBuilder.Entity("OnlineTest.Model.RToken", b =>
                 {
                     b.HasOne("OnlineTest.Model.User", "UserNavigation")
@@ -141,6 +254,42 @@ namespace OnlineTest.Migrations
                         .IsRequired();
 
                     b.Navigation("UserNavigation");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.Technology", b =>
+                {
+                    b.HasOne("OnlineTest.Model.User", "UserCreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineTest.Model.User", "UserModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy");
+
+                    b.Navigation("UserCreatedBy");
+
+                    b.Navigation("UserModifiedBy");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.Test", b =>
+                {
+                    b.HasOne("OnlineTest.Model.User", "UserCreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineTest.Model.Technology", "Technology")
+                        .WithMany()
+                        .HasForeignKey("TechnologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Technology");
+
+                    b.Navigation("UserCreatedBy");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>

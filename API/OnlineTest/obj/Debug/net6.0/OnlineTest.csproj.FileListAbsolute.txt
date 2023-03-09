@@ -87,7 +87,12 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest\obj\Debug\net6.0\refint\Onlin
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest\obj\Debug\net6.0\OnlineTest.pdb
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest\obj\Debug\net6.0\OnlineTest.genruntimeconfig.cache
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlineTest\obj\Debug\net6.0\ref\OnlineTest.dll
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.csproj.AssemblyReference.cache
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.AssemblyInfoInputs.cache
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.AssemblyInfo.cs
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.csproj.CoreCompileInputs.cache
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\appsettings.json
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\OnlineTest.exe
@@ -147,6 +152,7 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debu
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
@@ -159,13 +165,6 @@ C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debu
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\OnlineTest.Service.dll
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\OnlineTest.Model.pdb
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\bin\Debug\net6.0\OnlineTest.Service.pdb
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.csproj.AssemblyReference.cache
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.AssemblyInfoInputs.cache
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.AssemblyInfo.cs
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.csproj.CoreCompileInputs.cache
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\OnlineTest.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\staticwebassets\msbuild.OnlineTest.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\staticwebassets\msbuild.build.OnlineTest.props
 C:\Users\bhada\OneDrive\Desktop\Bacancy\OnlieTestProject\API\OnlineTest\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.OnlineTest.props

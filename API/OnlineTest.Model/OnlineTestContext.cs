@@ -11,6 +11,9 @@ namespace OnlineTest
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RToken> RToken { get; set; }
+        public DbSet<Technology> Technologies { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
 
 
     }
