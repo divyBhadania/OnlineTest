@@ -23,9 +23,10 @@ builder.Services.AddScoped<IUserServices, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRTokenRepository, RTokenRepository>();
 builder.Services.AddScoped<IRTokenService, RTokenService>();
-builder.Services.AddScoped<IUserRolesServices, UserRolesServices>();
+builder.Services.AddScoped<IUserRolesService, UserRolesService>();
 builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
-//builder.Services.Configure<JWTConfigDTO>(builder.Configuration.GetSection("JWTConfig"));
+builder.Services.AddScoped<ITechnologyRepository, TechnologyRepository>();
+builder.Services.AddScoped<ITechnologyService, TechnologyService>();
 #endregion
 
 #region JWT Config
@@ -139,7 +140,7 @@ void ConfigureJwtAuthService(IServiceCollection services)
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new
                 {
                     data = "",
-                    status = 200,
+                    status = 401,
                     message = "You are not Authorized to use API."
                 }));
             }

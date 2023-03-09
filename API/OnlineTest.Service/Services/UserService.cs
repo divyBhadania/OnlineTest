@@ -16,7 +16,6 @@ namespace OnlineTest.Service.Services
             _userRepository = userRepository;
             _userRolesRepository = userRolesRepository;
         }
-
         public List<UserDTO> GetUsers(int page, int? limit = null)
         {
             var users = _userRepository.GetUsers(page, limit).Select(s => new UserDTO()
@@ -61,7 +60,6 @@ namespace OnlineTest.Service.Services
             }
             return false;
         }
-
         public bool UpdateUser(UserDTO user)
         {
             return _userRepository.UpdateUser(new User
@@ -86,7 +84,6 @@ namespace OnlineTest.Service.Services
                 IsActive = user.IsActive
             }); ;
         }
-
         public List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
             var userDTO = new List<UserDTO>();
@@ -109,17 +106,14 @@ namespace OnlineTest.Service.Services
             return userDTO;
 
         }
-
         public bool ActiveUser(int id, bool isactive)
         {
             return _userRepository.ActiveUser(id , isactive); 
         }
-
         public bool ChangePassword(int id,string oldpassword, string password)
         {
             return _userRepository.ChangePassword(id, oldpassword, password);
         }
-
         public UserDTO IsUserExists(TokenDTO model)
         {
             var user = _userRepository.GetByEmail(model.Username);

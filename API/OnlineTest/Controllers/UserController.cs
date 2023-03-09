@@ -145,6 +145,7 @@ namespace OnlineTest.Controllers
         [HttpDelete("delete")]
         public IActionResult Delete(int id)
         {
+            id = id==0 ? -1 : id;
             try
             {
                 var userDto = _userService.GetUsers(next : 0).Where(i => i.Id == id).FirstOrDefault();
