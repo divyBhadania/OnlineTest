@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using OnlineTest;
 using OnlineTest.Model.Interface;
 using OnlineTest.Model.Repository;
@@ -9,7 +10,6 @@ using OnlineTest.Service.Interface;
 using OnlineTest.Service.Services;
 using OnlineTest.Services.Interface;
 using OnlineTest.Services.Services;
-using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,25 +78,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//else
-//{
-//    app.UseExceptionHandler(
-//        options => options.Run(
-//            async context =>
-//            {
-//                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-//                var ex = context.Features.Get<IExceptionHandlerFeature>();
-//                if(ex != null)
-//                    await context.Response.WriteAsync(ex.Error.Message);
-//            }
-//            )
-//        );
-//}
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+app.Use(async (context , next) =>
+{
+    try
+    {
+        await next(context);
+    }
+    catch(Exception e)
+    {
+        context.Response.StatusCode = 501;
+    }
+});
 #endregion
 
 void ConfigureJwtAuthService(IServiceCollection services)
@@ -130,5 +128,21 @@ void ConfigureJwtAuthService(IServiceCollection services)
         o.RequireHttpsMetadata = false;
         o.SaveToken = true;
         o.TokenValidationParameters = tokenValidationParameters;
+        o.Events = new JwtBearerEvents
+        {
+            OnChallenge = async context =>
+            {
+                context.HandleResponse();
+
+                context.Response.StatusCode = 401;
+                context.Response.Headers.Append("UnAuthorized", "");
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                {
+                    data = "",
+                    status = 200,
+                    message = "You are not Authorized to use API."
+                }));
+            }
+        };
     });
 }

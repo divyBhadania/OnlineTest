@@ -11,7 +11,7 @@ namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         public readonly IUserServices _userService;
@@ -54,7 +54,6 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPost("add")]
-        //[AllowAnonymous]
         public IActionResult Post(UserDTO user)
         {
             try
