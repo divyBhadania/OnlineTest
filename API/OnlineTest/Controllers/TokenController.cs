@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using OnlineTest.Model;
@@ -8,7 +6,6 @@ using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using OnlineTest.Services.DTO;
 using OnlineTest.Services.Interface;
-using System.Data;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,8 +20,8 @@ namespace OnlineTest.Controllers
         private readonly IUserServices _userService;
         private readonly IRTokenService _rTokenService;
         private readonly IConfiguration _jwtConfig;
-        private readonly IUserRolesServices _userRolesService;
-        public TokenController(IUserServices userService, IRTokenService rTokenService, IConfiguration jwtConfig , IUserRolesServices userRolesService)
+        private readonly IUserRolesService _userRolesService;
+        public TokenController(IUserServices userService, IRTokenService rTokenService, IConfiguration jwtConfig , IUserRolesService userRolesService)
         {
             _userService = userService;
             _rTokenService = rTokenService;
