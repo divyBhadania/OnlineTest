@@ -43,7 +43,7 @@ namespace OnlineTest.Service.Services
                 if(_userRolesRepository.AddRole(new UserRole
                 {
                     UserId = _userRepository.SeachUser(email: user.Email).Select(i => i.Id).FirstOrDefault(),
-                    RoleId = 2
+                    RoleId = 3
                 }))
                 {
                     return true;

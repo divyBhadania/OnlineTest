@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 
@@ -8,6 +8,7 @@ namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class TechnologyController : ControllerBase
     {
         private readonly ITechnologyService _TechnologyService;
