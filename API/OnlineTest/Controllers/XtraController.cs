@@ -138,7 +138,7 @@ namespace OnlineTest.Controllers
         {
             return (int)Convert.ToInt64((HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(i => i.Type == "UserId")?.Value);
         }
-
+        
         #endregion
     }
 }

@@ -85,13 +85,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-app.Use(async (context , next) =>
+app.Use(async (context, next) =>
 {
     try
     {
         await next(context);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
         context.Response.StatusCode = 501;
     }
@@ -129,21 +129,31 @@ void ConfigureJwtAuthService(IServiceCollection services)
         o.RequireHttpsMetadata = false;
         o.SaveToken = true;
         o.TokenValidationParameters = tokenValidationParameters;
-        o.Events = new JwtBearerEvents
+        var events = new JwtBearerEvents();
+        events.OnAuthenticationFailed = async context =>
         {
-            OnChallenge = async context =>
+            //context.HandleResponse();
+            context.Response.StatusCode = 401;
+            context.Response.Headers.Append("UnAuthenticat", "");
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
-                context.HandleResponse();
-
-                context.Response.StatusCode = 401;
-                context.Response.Headers.Append("UnAuthorized", "");
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 401,
-                    message = "You are not Authorized to use API."
-                }));
-            }
+                data = "",
+                status = 401,
+                message = "You are not Authenticat to use API."
+            }));
         };
+        events.OnForbidden = async context =>
+        {
+            //context.HandleResponse();
+            context.Response.StatusCode = 403;
+            context.Response.Headers.Append("UnAuthorized", "");
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+            {
+                data = "",
+                status = 403,
+                message = "You are not Authorized to use API."
+            }));
+        };
+        o.Events = events;
     });
 }

@@ -120,7 +120,8 @@ namespace OnlineTest.Controllers
         private string GetJwt(UserDTO sessionModel, string refreshToken)
         {
             var now = DateTime.UtcNow;
-            var role = _userRolesService.GetById(sessionModel.Id);
+            var _role = _userRolesService.GetById(sessionModel.Id).Min();
+            var Role = ((RoleLevel.Name)_role).ToString();
             var claims = new[]
             {
                 new Claim("Email", sessionModel.Email),
@@ -128,9 +129,9 @@ namespace OnlineTest.Controllers
                 new Claim("Iat", now.ToUniversalTime().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
                 new Claim("UserId",Convert.ToString(sessionModel.Id)),
                 new Claim("Name",Convert.ToString(sessionModel.Email)),
-                new Claim("Role" , role.Contains(1) ? "Admin" : role.Contains(0) ? "User" : "")
+                new Claim("Role" , Role)
             };
-
+            
             var symmetricKeyAsBase64 = _jwtConfig["SecretKey"];
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
@@ -140,7 +141,7 @@ namespace OnlineTest.Controllers
                 audience: _jwtConfig["Audience"],
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(TimeSpan.FromMinutes(1)),
+                expires: now.Add(TimeSpan.FromHours(1)),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -159,13 +160,14 @@ namespace OnlineTest.Controllers
         private string GetJwt(int id ,string refreshToken)
         {
             var now = DateTime.UtcNow;
-            var role = _userRolesService.GetById(id);
+            var _role = _userRolesService.GetById(id).Min();
+            var Role = ((RoleLevel.Name)_role).ToString();
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, refreshToken),
                 new Claim("Jti", Guid.NewGuid().ToString()),
                 new Claim("Iat", now.ToUniversalTime().ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Role" , role.Contains(1) ? "Admin" : role.Contains(0) ? "User" : ""),
+                new Claim("Role" , Role),
             };
 
             var symmetricKeyAsBase64 = _jwtConfig["SecretKey"];
