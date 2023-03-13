@@ -14,20 +14,20 @@ namespace OnlineTest.Model.Repository
             return _context.Technologies;
         }
 
-        public bool Add(Technology technology)
+        public async Task<bool> Add(Technology technology)
         {
             _context.Add(technology);
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
-        public bool Remove(Technology technology)
+        public async Task<bool> Remove(Technology technology)
         {
             _context.Remove(technology);
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public Technology GetByName(string TechName)
         {
-            return _context.Technologies.Where(x => x.TechName == TechName).FirstOrDefault();
+            return _context.Technologies.Where(i => i.TechName==TechName).FirstOrDefault();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class XtraController : ControllerBase
     {
         public readonly IUserServices _userService;

@@ -11,7 +11,5 @@ namespace OnlineTest.Service.Interface
     public interface IUserRolesService
     {
         List<int> GetById(int id);
-        bool AddRole(UserRolesDTO userRole);
-        bool RemoveRole(UserRolesDTO userRole);
     }
 }

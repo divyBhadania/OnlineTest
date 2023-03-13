@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using OnlineTest.Model;
+using OnlineTest.Model.@enum;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using OnlineTest.Services.DTO;
