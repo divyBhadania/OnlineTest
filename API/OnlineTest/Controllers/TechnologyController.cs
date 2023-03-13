@@ -8,7 +8,7 @@ namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class TechnologyController : ControllerBase
     {
         private readonly ITechnologyService _TechnologyService;
@@ -49,11 +49,15 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPost("add")]
-        public ActionResult Post(TechnologyDTO technologyDTO)
+        [Authorize(Roles = "Admin,Moderator")]
+        public ActionResult Post(string name)
         {
             try
             {
-                if (_TechnologyService.GetByName(technologyDTO.TechName.ToUpper()) == null)
+                var technologyDTO = new TechnologyDTO();
+                technologyDTO.TechName = name.ToUpper();
+                technologyDTO.CreatedBy = Convert.ToInt16(User.FindFirst("UserId").Value);
+                if (_TechnologyService.GetByName(technologyDTO.TechName) == null)
                 {
                     if (_TechnologyService.Add(technologyDTO))
                         return Ok(JsonConvert.SerializeObject(new
@@ -78,7 +82,7 @@ namespace OnlineTest.Controllers
                         message = "Technology already exits."
                     }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(JsonConvert.SerializeObject(new
                 {
@@ -88,5 +92,6 @@ namespace OnlineTest.Controllers
                 }));
             }
         }
+
     }
 }

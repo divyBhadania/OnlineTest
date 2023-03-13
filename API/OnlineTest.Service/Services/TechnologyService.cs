@@ -1,4 +1,5 @@
-﻿using OnlineTest.Model;
+﻿using AutoMapper;
+using OnlineTest.Model;
 using OnlineTest.Model.Interface;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
@@ -7,43 +8,32 @@ namespace OnlineTest.Service.Services
 {
     public class TechnologyService : ITechnologyService
     {
-        private readonly ITechnologyRepository _TechnologyRepository;
-        public TechnologyService(ITechnologyRepository TechnologyRepository)
+        private readonly ITechnologyRepository _technologyRepository;
+        private readonly IMapper _mapper;
+        public TechnologyService(ITechnologyRepository technologyRepository , IMapper mapper)
         {
-            _TechnologyRepository = TechnologyRepository;
+            _technologyRepository = technologyRepository;
+            _mapper = mapper;
         }
         public List<TechnologyDTO> GetAll()
         {
             var data = new List<TechnologyDTO>();
-            _TechnologyRepository.GetAll().ToList().ForEach(item => data.Add(new TechnologyDTO()
-            {
-                TechName = item.TechName.ToUpper(),
-                CreatedBy = item.CreatedBy,
-                ModifiedBy = item.ModifiedBy,
-            }));
+            _technologyRepository.GetAll().ToList().ForEach(item => data.Add(_mapper.Map<TechnologyDTO>(item)));
             return data;
         }
         public bool Add(TechnologyDTO technology)
         {
-            var now = DateTime.Now;
-            return _TechnologyRepository.Add(new Technology()
-            {
-                TechName = technology.TechName,
-                CreatedBy = technology.CreatedBy,
-                CreatedOn = now
-            });
+            var data = _mapper.Map<Technology>(technology);
+            data.CreatedOn = DateTime.Now;
+            data.TechName = data.TechName;
+            return _technologyRepository.Add(data).Result;
         }
 
         public TechnologyDTO GetByName(string TechName)
         {
-            var data = _TechnologyRepository.GetByName(TechName);
+            var data = _technologyRepository.GetByName(TechName);
             if (data != null)
-                return new TechnologyDTO()
-                {
-                    TechName = data.TechName.ToUpper(),
-                    CreatedBy = data.CreatedBy,
-                    ModifiedBy = data.ModifiedBy,
-                };
+                return _mapper.Map<TechnologyDTO>(data);
             else
                 return null;
         }

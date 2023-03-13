@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -6,11 +7,13 @@ using Newtonsoft.Json;
 using OnlineTest;
 using OnlineTest.Model.Interface;
 using OnlineTest.Model.Repository;
+using OnlineTest.Service;
 using OnlineTest.Service.Interface;
 using OnlineTest.Service.Services;
 using OnlineTest.Services.Interface;
 using OnlineTest.Services.Services;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -27,6 +30,9 @@ builder.Services.AddScoped<IUserRolesService, UserRolesService>();
 builder.Services.AddScoped<IUserRolesRepository, UserRolesRepository>();
 builder.Services.AddScoped<ITechnologyRepository, TechnologyRepository>();
 builder.Services.AddScoped<ITechnologyService, TechnologyService>();
+builder.Services.AddScoped<ITestService, TestService>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 #endregion
 
 #region JWT Config
@@ -71,9 +77,8 @@ builder.Services.AddDbContext<OnlineTestContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
-var app = builder.Build();
-
 #region Configure the HTTP request pipeline.
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

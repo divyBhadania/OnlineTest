@@ -15,22 +15,22 @@ namespace OnlineTest.Model.Repository
         {
             return limit == null ? _context.Users : _context.Users.Skip((page - 1) * (int)limit).Take((int)limit);
         }
-        public bool AddUser(User user)
+        public async Task<bool> AddUserAsync(User user)
         {
             _context.Users.Add(user);
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateUser(User user)
+        public async Task<bool> UpdateUserAsync(User user)
         {
             _context.Entry(user).State = EntityState.Modified;
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool DeleteUser(User user)
+        public async Task<bool> DeleteUserAsync(User user)
         {
             _context.Users.Remove(user);
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public IEnumerable<User> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)

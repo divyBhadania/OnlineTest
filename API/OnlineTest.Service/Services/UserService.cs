@@ -1,4 +1,5 @@
-﻿using OnlineTest.Model;
+﻿using AutoMapper;
+using OnlineTest.Model;
 using OnlineTest.Model.Interface;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
@@ -10,50 +11,37 @@ namespace OnlineTest.Service.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserRolesRepository _userRolesRepository;
-
-        public UserService(IUserRepository userRepository , IUserRolesRepository userRolesRepository)
+        private readonly IMapper _mapper;
+        public UserService(IUserRepository userRepository , IUserRolesRepository userRolesRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _userRolesRepository = userRolesRepository;
+            _mapper = mapper;
         }
         public List<UserDTO> GetUsers(int page, int? limit = null)
         {
-            var users = _userRepository.GetUsers(page, limit).Select(s => new UserDTO()
-            {
-                Name = s.Name,
-                Email = s.Email,
-                MobileNo = s.MobileNo,
-                Password = s.Password,
-                Id = s.Id,
-                IsActive = s.IsActive,
-            }).ToList();
-            return users;
+            var data = new List<UserDTO>();
+            _userRepository.GetUsers(page, limit).ToList().ForEach(item => data.Add(_mapper.Map<UserDTO>(item)));
+            return data;
 
         }
         public bool AddUser(UserDTO user)
         {
-            if(_userRepository.AddUser(new User
-            {
-                Email = user.Email,
-                MobileNo = user.MobileNo,
-                Name = user.Name,
-                Password = user.Password
-            }))
+            if (_userRepository.AddUserAsync(_mapper.Map<User>(user)).Result)
             {
                 if(_userRolesRepository.AddRole(new UserRole
                 {
                     UserId = _userRepository.SeachUser(email: user.Email).Select(i => i.Id).FirstOrDefault(),
                     RoleId = 3
                 }))
-                {
                     return true;
-                }
+
                 else
                 {
                     var data = _userRepository.SeachUser(email: user.Email).FirstOrDefault();
                     if(data != null)
                     {
-                        _userRepository.DeleteUser(data);
+                        _userRepository.DeleteUserAsync(data);
                         return false;
                     }
                 }
@@ -62,49 +50,19 @@ namespace OnlineTest.Service.Services
         }
         public bool UpdateUser(UserDTO user)
         {
-            return _userRepository.UpdateUser(new User
-            {
-                Id = user.Id,
-                Email = user.Email,
-                MobileNo = user.MobileNo,
-                Name = user.Name,
-                Password = user.Password,
-                IsActive = user.IsActive
-            }); ;
+            return _userRepository.UpdateUserAsync(_mapper.Map<User>(user)).Result;
         }
         public bool DeleteUser(UserDTO user)
         {
-            return _userRepository.DeleteUser(new User
-            {
-                Id = user.Id,
-                Email = user.Email,
-                MobileNo = user.MobileNo,
-                Name = user.Name,
-                Password = user.Password,
-                IsActive = user.IsActive
-            }); ;
+            return _userRepository.DeleteUserAsync(_mapper.Map<User>(user)).Result;
         }
         public List<UserDTO> SeachUser(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
-            var userDTO = new List<UserDTO>();
-            var data = _userRepository.SeachUser(id, name, email, mobile, isactive).ToList();
-            if (data.Count ==0) {
-                return new List<UserDTO>();
-            }
-            foreach (var i in data)
-            {
-                userDTO.Add(new UserDTO
-                {
-                    Id = i.Id,
-                    Email = i.Email,
-                    MobileNo = i.MobileNo,
-                    Name = i.Name,
-                    Password = i.Password,
-                    IsActive = i.IsActive
-                });
-            }
-            return userDTO;
-
+            var data = new List<UserDTO>();
+            _userRepository.SeachUser(id, name, email, mobile, isactive)
+                .ToList()
+                .ForEach(item => data.Add(_mapper.Map<UserDTO>(item)));
+            return data;
         }
         public bool ActiveUser(int id, bool isactive)
         {

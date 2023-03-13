@@ -4,7 +4,7 @@
     {
         IEnumerable<Technology> GetAll();
         Technology GetByName(string TechName);
-        bool Add(Technology technology);
-        bool Remove(Technology technology);
+        Task<bool> Add(Technology technology);
+        Task<bool> Remove(Technology technology);
     }
 }

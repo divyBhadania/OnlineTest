@@ -17,21 +17,5 @@ namespace OnlineTest.Service.Services
         {
             return _userRolesServices.GetById(id).ToList();
         }
-        public bool AddRole(UserRolesDTO userRole)
-        {
-            return _userRolesServices.AddRole(new UserRole
-            {
-                UserId = userRole.Id,
-                RoleId = userRole.RoleId
-            });
-        }
-        public bool RemoveRole(UserRolesDTO userRole)
-        {
-            return _userRolesServices.RemoveRole(new UserRole
-            {
-                UserId = userRole.Id,
-                RoleId = userRole.RoleId
-            });
-        }
     }
 }
