@@ -18,93 +18,29 @@ namespace OnlineTest.Controllers
             _testService = testService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult GetAll(int page, int? limit = null)
         {
-            try
-            {
-                page = page == null ? 1 : page;
-                var test = _testService.GetAllTest(page, limit);
-                return Ok(JsonConvert.SerializeObject(new
-                {
-                    data = test,
-                    status = 200,
-                    message = "Test data"
-                }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_testService.GetAllTest(page == null ? 1 : page, limit));
         }
 
         [HttpGet]
         public ActionResult Get(int id)
         {
-            try
-            {
-                var test = _testService.GetTesyById(id);
-                return Ok(JsonConvert.SerializeObject(new
-                {
-                    data = test,
-                    status = 200,
-                    message = "Test data"
-                }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_testService.GetTesyById(id));
         }
 
         [HttpPost("add")]
-        [Authorize(Roles = "Admin,Moderator")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public ActionResult AddTest(AddTestDTO addTestDTO)
         {
-            try
-            {
-                addTestDTO.CreatedBy = Convert.ToInt16(User.FindFirst("UserId").Value);
-                if (_testService.AddTest(addTestDTO))
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "Test added successfully"
-                    }));
-                else
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "Test added successfully"
-                    })) ;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_testService.AddTest(Convert.ToInt32(User.FindFirst("UserId").Value), addTestDTO));
         }
 
-        [HttpPut]
-        public ActionResult updateTest(TestDTO testDTO)
+        [HttpPut("update")]
+        public ActionResult updateTest(UpdateTestDTO testDTO)
         {
-            _testService.UpdateTest(testDTO);
-            return Ok();
+            return Ok(_testService.UpdateTest(testDTO));
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OnlineTest.Model;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace OnlineTest.Controllers
 {
@@ -54,7 +51,7 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Post(UserDTO user)
+        public ActionResult Post(UserDTO user)
         {
             try
             {
@@ -95,7 +92,7 @@ namespace OnlineTest.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult UpdateUser(UserDTO user)
+        public ActionResult UpdateUser(UserDTO user)
         {
             try
             {
@@ -143,7 +140,7 @@ namespace OnlineTest.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {
