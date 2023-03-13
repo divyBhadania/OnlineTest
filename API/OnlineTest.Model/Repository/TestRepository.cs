@@ -36,7 +36,8 @@ namespace OnlineTest.Model.Repository
 
         public bool UpdateTest(Test test)
         {
-            _context.Tests.Update(test);
+            //_context.Tests.Update(test); 
+            _context.Entry(test).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return _context.SaveChanges() > 0;
         }
     }

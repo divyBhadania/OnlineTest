@@ -10,7 +10,9 @@ namespace OnlineTest.Model
         public string Description { get; set; }
         [ForeignKey("UserCreatedBy")]
         public int CreatedBy { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime CreatedTime { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime ExpireOn { get; set; }
         public int TechnologyId { get; set; }
         public User UserCreatedBy { get; set; }

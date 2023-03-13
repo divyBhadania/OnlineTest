@@ -9,9 +9,9 @@ namespace OnlineTest.Service.Interface
 {
     public interface ITechnologyService
     {
-        List<TechnologyDTO> GetAll();
-        TechnologyDTO GetByName(string TechName);
-        bool Add(TechnologyDTO technology);
+        ResponseDTO GetAll();
+        ResponseDTO Add(string name , int id);
+        ResponseDTO Update(int id,string oldTech, string newTech);
         bool Remove(TechnologyDTO technology);
     }
 }

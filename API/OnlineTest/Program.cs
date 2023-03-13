@@ -90,17 +90,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-app.Use(async (context, next) =>
-{
-    try
-    {
-        await next(context);
-    }
-    catch (Exception e)
-    {
-        context.Response.StatusCode = 501;
-    }
-});
 #endregion
 
 void ConfigureJwtAuthService(IServiceCollection services)

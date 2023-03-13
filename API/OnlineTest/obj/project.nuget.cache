@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "dxbY4ufhOhKozRT5asB5dfF3o9+GPVstSfe3f8WO9DnI58+9RwRYqtCz24dG34wxaZTEGMm2uKGLxLlco7rB3Q==",
+  "dgSpecHash": "4uAVPcE8ewEA/pq9xvmzxHm12UEogggr9V4AJHGUrQTQu4va7+cN3kpuSVrroPzfQ3r7SNidlLiNXyteMS52oQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\bhada\\OneDrive\\Desktop\\Bacancy\\OnlieTestProject\\API\\OnlineTest\\OnlineTest.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\bhada\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\bhada\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\bhada\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

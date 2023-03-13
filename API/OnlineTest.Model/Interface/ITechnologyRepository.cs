@@ -5,6 +5,7 @@
         IEnumerable<Technology> GetAll();
         Technology GetByName(string TechName);
         Task<bool> Add(Technology technology);
+        Task<bool> Update(Technology technology);
         Task<bool> Remove(Technology technology);
     }
 }

@@ -4,10 +4,10 @@ namespace OnlineTest.Service.Interface
 {
     public interface ITestService
     {
-        List<TestDTO> GetAllTest(int page, int? limit = null);
-        TestDTO GetTesyById(int id);
-        bool AddTest(AddTestDTO addTestDTO);
+        ResponseDTO GetAllTest(int page, int? limit = null);
+        ResponseDTO GetTesyById(int id);
+        ResponseDTO AddTest(int id ,AddTestDTO addTestDTO);
         bool DeleteTest(TestDTO testDTO);
-        bool UpdateTest(TestDTO testDTO);
+        ResponseDTO UpdateTest(UpdateTestDTO testDTO);
     }
 }

@@ -1,4 +1,5 @@
-﻿using OnlineTest.Model.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineTest.Model.Interface;
 
 namespace OnlineTest.Model.Repository
 {
@@ -28,6 +29,12 @@ namespace OnlineTest.Model.Repository
         public Technology GetByName(string TechName)
         {
             return _context.Technologies.Where(i => i.TechName==TechName).FirstOrDefault();
+        }
+
+        public async Task<bool> Update(Technology technology)
+        {
+            _context.Entry(technology).State = EntityState.Modified;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
