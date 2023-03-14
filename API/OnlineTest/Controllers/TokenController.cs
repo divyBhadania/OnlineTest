@@ -118,7 +118,7 @@ namespace OnlineTest.Controllers
             }
         }
 
-        private string GetJwt(UserDTO sessionModel, string refreshToken)
+        private string GetJwt(AddUserDTO sessionModel, string refreshToken)
         {
             var now = DateTime.UtcNow;
             var _role = _userRolesService.GetById(sessionModel.Id).Min();

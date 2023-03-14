@@ -4,24 +4,34 @@ namespace OnlineTest.Model.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        public bool AddQuestion(Question question)
+        private readonly OnlineTestContext _context;
+        public QuestionRepository(OnlineTestContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public int AddQuestion(Question question)
+        {
+            _context.Questions.Add(question);
+            if (_context.SaveChanges() > 0)
+                return question.Id;
+            else
+                return 0;
         }
 
         public Question GetById(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Questions.Where(i => i.Id == Id).FirstOrDefault();
         }
 
         public IEnumerable<Question> GetQuesByTestId(int testId)
         {
-            throw new NotImplementedException();
+            return _context.Questions.Where(i => i.TestId == testId);
         }
 
         public bool UpdateQuestion(Question question)
         {
-            throw new NotImplementedException();
+            _context.Questions.Update(question);
+            return _context.SaveChanges() > 0;
         }
     }
 }

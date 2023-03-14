@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
-using System.Collections.Generic;
 
 namespace OnlineTest.Controllers
 {
@@ -27,9 +25,9 @@ namespace OnlineTest.Controllers
         [HttpGet]
         public ActionResult Get(int id)
         {
-            return Ok(_testService.GetTesyById(id));
+            return Ok(_testService.GetTestById(id));
         }
-
+        
         [HttpPost("add")]
         //[Authorize(Roles = "Admin,Moderator")]
         public ActionResult AddTest(AddTestDTO addTestDTO)

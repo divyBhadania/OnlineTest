@@ -11,10 +11,12 @@ namespace OnlineTest.Service.Services
     public class TestService : ITestService
     {
         private readonly ITestRepository _testRepository;
+        private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
-        public TestService(ITestRepository testRepository, IMapper mapper)
+        public TestService(ITestRepository testRepository, IQuestionRepository questionRepository, IMapper mapper)
         {
             _testRepository = testRepository;
+            _questionRepository = questionRepository;
             _mapper = mapper;
         }
         public ResponseDTO GetAllTest(int page, int? limit = null)
@@ -47,10 +49,15 @@ namespace OnlineTest.Service.Services
                 var test = _mapper.Map<Test>(addTestDTO);
                 test.CreatedTime = DateTime.Now;
                 test.CreatedBy = id;
-                if (_testRepository.AddTest(test))
+                var flag = _testRepository.AddTest(test);
+                if (flag > 0)
                     return new ResponseDTO
                     {
                         Status = 200,
+                        Data = new
+                        {
+                            TestId = id,
+                        },
                         Message = "Test added successfully",
                     };
                 else
@@ -60,7 +67,7 @@ namespace OnlineTest.Service.Services
                         Message = "Technology Not added.",
                     };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ResponseDTO
                 {
@@ -76,23 +83,46 @@ namespace OnlineTest.Service.Services
             return _testRepository.DeleteTest(_mapper.Map<Test>(testDTO));
         }
 
-        public ResponseDTO GetTesyById(int id)
+        public ResponseDTO GetTestById(int id)
         {
             try
             {
                 var test = _mapper.Map<TestDTO>(_testRepository.GetTestById(id));
-                if(test != null)
+                if (test != null)
+                {
+                    var ques = _mapper.Map<List<QuestionDTO>>(_questionRepository.GetQuesByTestId(id).ToList());
+                    var QAlist = new List<object>();
+                    foreach (var item in ques)
+                    {
+                        QAlist.Add(new
+                        {
+                            id = item.Id,
+                            questionName = item.QuestionName,
+                            que = item.Que,
+                            type = item.Type,
+                            weightage = item.Weightage,
+                            answers = new AnswerDTO()
+                        });
+                    }
                     return new ResponseDTO
                     {
                         Status = 200,
-                        Data = test,
-                        Message = "Sucess"
+                        Data = new
+                        {
+                            id = test.Id,
+                            testName = test.TestName,
+                            description = test.Description,
+                            expireOn = test.ExpireOn,
+                            technologyId = test.TechnologyId,
+                            questions = QAlist
+                        }
                     };
+                }
                 else
                     return new ResponseDTO
                     {
                         Status = 404,
-                        Message = "Not valid Id"
+                        Message = "Not valid Test Id"
                     };
             }
             catch (Exception ex)
@@ -111,7 +141,7 @@ namespace OnlineTest.Service.Services
             try
             {
                 var oldTest = _testRepository.GetTestById(testDTO.Id);
-                if ( oldTest == null)
+                if (oldTest == null)
                     return new ResponseDTO
                     {
                         Status = 404,
@@ -120,7 +150,7 @@ namespace OnlineTest.Service.Services
                 var newTest = _mapper.Map<Test>(testDTO);
                 newTest.CreatedTime = oldTest.CreatedTime;
                 newTest.CreatedBy = oldTest.CreatedBy;
-                if(_testRepository.UpdateTest(newTest))
+                if (_testRepository.UpdateTest(newTest))
                     return new ResponseDTO
                     {
                         Status = 200,

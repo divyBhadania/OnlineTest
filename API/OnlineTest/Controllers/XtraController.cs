@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OnlineTest.Service.DTO;
 using OnlineTest.Service.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -20,7 +18,7 @@ namespace OnlineTest.Controllers
             _userService = userService;
         }
         [HttpGet("search")]
-        public ActionResult<UserDTO> SearchQuery(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
+        public ActionResult SearchQuery(int? id = null, string? name = null, string? email = null, string? mobile = null, bool? isactive = null)
         {
             try
             {

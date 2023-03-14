@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OnlineTest.Model.Interface;
+﻿using OnlineTest.Model.Interface;
 
 namespace OnlineTest.Model.Repository
 {
@@ -33,7 +32,10 @@ namespace OnlineTest.Model.Repository
 
         public async Task<bool> Update(Technology technology)
         {
-            _context.Entry(technology).State = EntityState.Modified;
+            //_context.Entry(technology).State = EntityState.Modified;
+            _context.Entry(technology).Property("ModifiedBy").IsModified= true;
+            _context.Entry(technology).Property("ModifiedOn").IsModified= true;
+            _context.Entry(technology).Property("TechName").IsModified= true;
             return await _context.SaveChangesAsync() > 0;
         }
     }
