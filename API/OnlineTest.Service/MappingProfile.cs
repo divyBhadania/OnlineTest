@@ -8,17 +8,20 @@ namespace OnlineTest.Service
     {
         public MappingProfile()
         {
-
             CreateMap<Technology, TechnologyDTO>();
             CreateMap<TechnologyDTO, Technology>();
 
-            CreateMap<UserDTO, User>();
-            CreateMap<User, UserDTO>();
+            CreateMap<AddUserDTO, User>();
+            CreateMap<User, GetUserDTO>();
+            CreateMap<User, AddUserDTO>();
 
             CreateMap<TestDTO, Test>();
             CreateMap<AddTestDTO, Test>();
             CreateMap<Test, TestDTO>();
             CreateMap<UpdateTestDTO, Test>();
+
+            CreateMap<QuestionDTO, Question>();
+            CreateMap<Question, QuestionDTO>();
         }
     }
 }

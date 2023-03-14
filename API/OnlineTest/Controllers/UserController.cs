@@ -20,164 +20,25 @@ namespace OnlineTest.Controllers
         [HttpGet]
         public ActionResult Get(int? limit = null , int? page=null)
         {
-            try
-            {
-                page = page == null ? 1 : page;
-                var user = _userService.GetUsers((int)page, limit);
-                if (user.Count > 0)
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = user,
-                        status = 200,
-                        message = "All users data"
-                    }));
-                else
-                    return NotFound(JsonConvert.SerializeObject(new
-                    {
-                        data = user,
-                        status = 404,
-                        message = "No data Found"
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_userService.GetUsers(page == null ? 1 : (int)page , limit));
         }
 
         [HttpPost("add")]
-        public ActionResult Post(UserDTO user)
+        public ActionResult Post(AddUserDTO user)
         {
-            try
-            {
-                var data = _userService.SeachUser(email : user.Email);
-                if(data.Count != 0)
-                {
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "Email id already exits."
-                    }));
-                }
-                if (_userService.AddUser(user))
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "User added successfully"
-                    }));
-                else
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "User Not added"
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_userService.AddUser(user));
         }
 
         [HttpPut("update")]
-        public ActionResult UpdateUser(UserDTO user)
+        public ActionResult UpdateUser(AddUserDTO user)
         {
-            try
-            {
-                var data = _userService.SeachUser(email: user.Email);
-                if (data.Count != 0 && data.FirstOrDefault().Id != user.Id)
-                {
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "Email id already exits with different account."
-                    }));
-                }
-                if (_userService.SeachUser(user.Id).Count == 0)
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "Invalid User Id."
-                    }));
-                if (_userService.UpdateUser(user))
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "User update successfully"
-                    }));
-                else
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "User data Not updated"
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_userService.UpdateUser(user));
         }
 
         [HttpDelete("delete")]
         public ActionResult Delete(int id)
         {
-            try
-            {
-                var userDto = _userService.GetUsers(next : 0).Where(i => i.Id == id).FirstOrDefault();
-                if (userDto == null)
-                {
-                    return NotFound(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 404,
-                        message = "No User Found"
-                    }));
-                }
-                else if (_userService.DeleteUser(userDto))
-                    return Ok(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 200,
-                        message = "User deleted successfully"
-                    }));
-                else
-                    return BadRequest(JsonConvert.SerializeObject(new
-                    {
-                        data = "",
-                        status = 400,
-                        message = "User Not deleted"
-                    }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(JsonConvert.SerializeObject(new
-                {
-                    data = "",
-                    status = 400,
-                    message = ex.Message
-                }));
-            }
+            return Ok(_userService.DeleteUser(id));
         }
     }
 }

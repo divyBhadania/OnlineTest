@@ -96,9 +96,16 @@ namespace OnlineTest.Service.Services
                     };
                 else
                 {
-                    tech.TechName = newTech.ToUpper();
-                    tech.ModifiedOn = DateTime.UtcNow;
-                    tech.ModifiedBy = id;
+                    //tech.TechName = newTech.ToUpper();
+                    //tech.ModifiedOn = DateTime.UtcNow;
+                    //tech.ModifiedBy = id;
+                    tech = new Technology()
+                    {
+                        Id = tech.Id,
+                        ModifiedBy= id,
+                        ModifiedOn= DateTime.UtcNow,
+                        TechName = newTech.ToUpper(),
+                    };
                     if (_technologyRepository.Update(tech).Result)
                         return new ResponseDTO
                         {
